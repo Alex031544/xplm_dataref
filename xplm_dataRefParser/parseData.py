@@ -5,7 +5,7 @@ def preProcessDataRef(line):
 
         # GET LINE
         ref     = line.split("\t")
-        ref[0]  = ref[0].replace("position/elevation","position/altitude")
+
         # VARNAME
         rName   = ref[0].replace("/", "_")
 

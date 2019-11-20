@@ -1,7 +1,7 @@
 # == XPLANE PLUGIN DATAREF PARSING TO CPP HEADER ===============================
 # @author:  Christopher Ruwisch
 # @date:    19/11/2019
-# @version: 0.0
+# @version: 0.1
 # @brief:   Parser for datareferences from XPLANE SDK to build a plugin for
 #           different applications
 # ==============================================================================
@@ -48,7 +48,7 @@ with open(headerFile,"w+") as wFile:
     wFile.writelines("\tchar refName[MAXSIZESTRING];\n")
     wFile.writelines("\tint type;\t\t // 0 - BYTE | 1 - INT | 2 - FLOAT | 3 - DOUBLE | 4 - UNKNOWN\n")
     wFile.writelines("\tint size;\t\t // NUMBER OF ELEMENT\n")
-    wFile.writelines("\tint isWrite;\t // 1 - YES | 0 - NO //\n")
+    wFile.writelines("\tint isWritable;\t // 1 - YES | 0 - NO //\n")
     # Typedef Struct (END)
     wFile.writelines("} xplm_ref_t;\n\n")
     wFile.writelines("// HINT: Array in this File \"xplm_ref[MAXSIZEREFS]\"\n\n")
