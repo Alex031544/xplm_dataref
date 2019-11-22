@@ -42,7 +42,7 @@ with open(headerFile,"w+") as wFile:
 
     wFile.writelines("// == TYPEDEFS ================================================================\n")
 
-    # Typedef Struct xplm_dRef_t(START) - VARIABLE
+    # Typedef Struct xplm_ref_t(START) - VARIABLE
     wFile.writelines("typedef struct {\n")
     # Structelements
     wFile.writelines("\tchar refName[MAXSIZESTRING];\n")
@@ -57,7 +57,7 @@ with open(headerFile,"w+") as wFile:
 
     wFile.writelines("// == ENUMERATION =============================================================\n")
     # Data access enums (START)
-    wFile.writelines("enum xplm_ref {\n")
+    wFile.writelines("enum xplm_ref_E {\n")
     # Data access enums
 
 
