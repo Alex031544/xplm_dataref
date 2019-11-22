@@ -51,12 +51,16 @@ with open(headerFile,"w+") as wFile:
     wFile.writelines("\tint isWritable;\t // 1 - YES | 0 - NO //\n")
     # Typedef Struct (END)
     wFile.writelines("} xplm_ref_t;\n\n")
-    wFile.writelines("// HINT: Array in this File \"xplm_ref[MAXSIZEREFS]\"\n\n")
+    wFile.writelines("// HINT: Array in this File \"xplm_ref[MAXSIZEREFS]\"\n")
+    wFile.writelines("// HINT: Access to array refs with _# : e.g. ..._CLOUD_TYPE[0] -> enum is: ..._CLOUD_TYPE_0\n")
+    wFile.writelines("// HINT: Reference - sim/flightmodel/position/q -> XPLM_SIM_FLIGHTMODEL_POSITION_QUAT\n\n")
 
     wFile.writelines("// == ENUMERATION =============================================================\n")
     # Data access enums (START)
     wFile.writelines("enum xplm_ref {\n")
     # Data access enums
+
+
     for element in dataRef:
         wFile.writelines("\tXPLM_" + (element.var).upper() + ",\n")
     # Data access enums (END)
@@ -74,14 +78,3 @@ with open(headerFile,"w+") as wFile:
     wFile.writelines("};\n")
 
     wFile.writelines("#endif //" + _hName + "\n")
-
-
-
-
-
-
-
-
-
-
-

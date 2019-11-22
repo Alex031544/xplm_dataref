@@ -8,7 +8,11 @@ def preProcessDataRef(line):
 
         # VARNAME
         rName   = ref[0].replace("/", "_")
-
+        if(rName.find('[')):
+            rName = rName.replace('[',"_")
+            rName = rName.replace(']',"")
+        if(rName == "sim_flightmodel_position_q"):
+            rName = "sim_flightmodel_position_quat"
         # TYPE AND LENGTH
         type    = (ref[1].replace("]","[")).split("[",2)
 
@@ -43,5 +47,3 @@ def preProcessDataRef(line):
 
         processedData = collections.namedtuple('dataref',['ref','var','type','size','isWrite'])
         return processedData(ref[0],rName,rType,rLen,rIsWrite)
-
-
