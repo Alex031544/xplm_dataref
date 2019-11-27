@@ -1,8 +1,8 @@
 /**
  * @author:     Christopher Ruwisch
- * @version:    0.2
+ * @version:    0.3
  * @brief:      Access class for XPlane plugin
- * @date:       2019/11/22
+ * @date:       2019/11/27
  */
 
 #include "xplm_dataRefAccess.h"
