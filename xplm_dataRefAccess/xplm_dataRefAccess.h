@@ -54,15 +54,15 @@ public:
     void writeData(enum xplm_ref_E _num, float *data, int offSet, int nElem);
 	void writeData(enum xplm_ref_E _num, double *data);
 
+    bool isWritableRef(enum xplm_ref_E _num);
+    int getType(enum xplm_ref_E _num);
+    int getSize(enum xplm_ref_E _num);
 private:
     // == PRIVATE ATTRIBUTES ==
     std::vector<XPLMDataRef>    _refStorage;
     bool                        _isInit;
 
-    // == PRIVATE METHODS ==
-    bool isWritableRef(enum xplm_ref_E _num);
-    int getType(enum xplm_ref_E _num);
-    int getSize(enum xplm_ref_E _num);
+
 
 };
 
