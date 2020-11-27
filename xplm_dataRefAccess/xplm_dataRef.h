@@ -1,3 +1,15 @@
+/**
+ * @author:  Christopher Ruwisch, Alexander Behrens
+ * @date:    27/11/2020
+ * @version: 1.0
+ * @brief:   A dataset containing all data references (datarefs) with a C/C++ documentation and access via enums.
+ *
+ * This header bases on a Dataref.txt originally placed within the XPlane installation (X-Plane 11/Resources/plugins/):
+ *
+ *        Version: 11.35
+ *        Date:    Jul 12 2019
+ */
+
 #ifndef XPLM_DATAREFACCESS_H_INCLUDED
 #define XPLM_DATAREFACCESS_H_INCLUDED
 
@@ -16289,7 +16301,7 @@ enum xplm_ref_e
 
     /** @brief The ratio of the reported visibility to actually show for frame-rate protection. 1.0 means the user ses the reported visibility.  Writable in v9, fixed in v10.
      * 
-     * unit: [0.0..1.0]
+     * unit: [0.01.0]
      * size: 1
      * is writeable: no
      * path: sim/graphics/view/visibility_framerate_ratio
@@ -29249,7 +29261,7 @@ enum xplm_ref_e
 
     /** @brief The percentage of rain falling.
      * 
-     * unit: [0.0..1.0]
+     * unit: [0.01.0]
      * size: 1
      * is writeable: yes
      * path: sim/weather/rain_percent
@@ -29258,7 +29270,7 @@ enum xplm_ref_e
 
     /** @brief The percentage of thunderstorms present.
      * 
-     * unit: [0.0..1.0]
+     * unit: [0.01.0]
      * size: 1
      * is writeable: yes
      * path: sim/weather/thunderstorm_percent
@@ -29267,7 +29279,7 @@ enum xplm_ref_e
 
     /** @brief The percentage of wind turbulence present.
      * 
-     * unit: [0.0..1.0]
+     * unit: [0.01.0]
      * size: 1
      * is writeable: yes
      * path: sim/weather/wind_turbulence_percent
@@ -29492,7 +29504,7 @@ enum xplm_ref_e
 
     /** @brief A turbulence factor, 0-10, the unit is just a scale.
      * 
-     * unit: [0..10]
+     * unit: [010]
      * size: 1
      * is writeable: yes
      * path: sim/weather/turbulence[0]
@@ -29501,7 +29513,7 @@ enum xplm_ref_e
 
     /** @brief A turbulence factor, 0-10, the unit is just a scale.
      * 
-     * unit: [0..10]
+     * unit: [010]
      * size: 1
      * is writeable: yes
      * path: sim/weather/turbulence[1]
@@ -29510,7 +29522,7 @@ enum xplm_ref_e
 
     /** @brief A turbulence factor, 0-10, the unit is just a scale.
      * 
-     * unit: [0..10]
+     * unit: [010]
      * size: 1
      * is writeable: yes
      * path: sim/weather/turbulence[2]

@@ -1,3 +1,15 @@
+/**
+ * @author:  Christopher Ruwisch, Alexander Behrens
+ * @date:    27/11/2020
+ * @version: 1.0
+ * @brief:   A dataset containing all data references (datarefs) with a C/C++ documentation and access via enums.
+ *
+ * This header bases on a Dataref.txt originally placed within the XPlane installation (X-Plane 11/Resources/plugins/):
+ *
+ *        Version: ${DREV_VERSION}
+ *        Date:    ${DREV_ISSUEDATE_M} ${DREV_ISSUEDATE_D} ${DREV_ISSUEDATE_Y}
+ */
+
 #ifndef XPLM_DATAREFACCESS_H_INCLUDED
 #define XPLM_DATAREFACCESS_H_INCLUDED
 
