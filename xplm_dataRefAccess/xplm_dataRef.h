@@ -6,15 +6,15 @@
  *
  * This header bases on a Dataref.txt originally placed within the XPlane installation (X-Plane 11/Resources/plugins/):
  *
- *        Version: 11.35
- *        Date:    Jul 12 2019
+ *        Version: 11.50
+ *        Date:    Aug 10 2020
  */
 
 #ifndef XPLM_DATAREFACCESS_H_INCLUDED
 #define XPLM_DATAREFACCESS_H_INCLUDED
 
 
-#define MAXSIZEREFS 4434
+#define MAXSIZEREFS 4688
 
 
 /** @brief Enums for data types in xplm_ref_t */
@@ -99,7 +99,7 @@ enum xplm_ref_e
      */
     XPLM_SIM_AIRCRAFT_AUTOPILOT_RADIO_ALTIMETER_STEP_FT,
 
-    /** @brief 0=X-Plane custom, 1=Airliner, 2=GFC-700, 3=S-Tec 55, 4=S-Tec 55 with altitude preselect, 5=KAP-140 single axis, 6=KAP-140 dual axis, 7=KAP-140 dual axis with altitude preselect, 8=Piper Autocontrol
+    /** @brief 0=X-Plane custom, 1=Airliner, 2=GFC-700, 3=S-Tec 55, 4=S-Tec 55 with altitude preselect, 5=KAP-140 single axis, 6=KAP-140 dual axis, 7=KAP-140 dual axis with altitude preselect, 8=Piper Autocontrol, 9=Rockwell/Collins FCS-65
      * 
      * unit: enum
      * size: 1
@@ -143,6 +143,15 @@ enum xplm_ref_e
      * path: sim/aircraft/view/acf_tailnum
      */
     XPLM_SIM_AIRCRAFT_VIEW_ACF_TAILNUM,
+
+    /** @brief 24bit (0-16777215 or 0-0xFFFFFF) unique ID of the airframe. This is also known as the ADS-B "hexcode".
+     * 
+     * unit: integer
+     * size: 1
+     * is writeable: yes
+     * path: sim/aircraft/view/acf_modeS_id
+     */
+    XPLM_SIM_AIRCRAFT_VIEW_ACF_MODES_ID,
 
     /** @brief Author's Name
      * 
@@ -224,15 +233,6 @@ enum xplm_ref_e
      * path: sim/aircraft/view/acf_has_stallwarn
      */
     XPLM_SIM_AIRCRAFT_VIEW_ACF_HAS_STALLWARN,
-
-    /** @brief Do we have a lite map texture for this?
-     * 
-     * unit: enum
-     * size: 1
-     * is writeable: yes
-     * path: sim/aircraft/view/acf_has_litemap_tex
-     */
-    XPLM_SIM_AIRCRAFT_VIEW_ACF_HAS_LITEMAP_TEX,
 
     /** @brief Position of pilot's head relative to CG, X
      * 
@@ -4032,7 +4032,7 @@ enum xplm_ref_e
      */
     XPLM_SIM_AIRCRAFT_OVERFLOW_ACF_ELEVFLAPS,
 
-    /** @brief ???	fuel tank locations - was dim 3 in XP8 and earlier
+    /** @brief ???	fuel tank locations when empty - was dim 3 in XP8 and earlier
      * 
      * unit: None
      * size: 9
@@ -4041,7 +4041,7 @@ enum xplm_ref_e
      */
     XPLM_SIM_AIRCRAFT_OVERFLOW_ACF_TANK_X,
 
-    /** @brief ???	fuel tank locations - was dim 3 in XP8 and earlier
+    /** @brief ???	fuel tank locations when empty - was dim 3 in XP8 and earlier
      * 
      * unit: None
      * size: 9
@@ -4050,7 +4050,7 @@ enum xplm_ref_e
      */
     XPLM_SIM_AIRCRAFT_OVERFLOW_ACF_TANK_Y,
 
-    /** @brief ???	fuel tank locations - was dim 3 in XP8 and earlier
+    /** @brief ???	fuel tank locations when empty - was dim 3 in XP8 and earlier
      * 
      * unit: None
      * size: 9
@@ -4058,6 +4058,33 @@ enum xplm_ref_e
      * path: sim/aircraft/overflow/acf_tank_Z
      */
     XPLM_SIM_AIRCRAFT_OVERFLOW_ACF_TANK_Z,
+
+    /** @brief ???	fuel tank locations when full - was dim 3 in XP8 and earlier
+     * 
+     * unit: None
+     * size: 9
+     * is writeable: yes
+     * path: sim/aircraft/overflow/acf_tank_X_full
+     */
+    XPLM_SIM_AIRCRAFT_OVERFLOW_ACF_TANK_X_FULL,
+
+    /** @brief ???	fuel tank locations when full - was dim 3 in XP8 and earlier
+     * 
+     * unit: None
+     * size: 9
+     * is writeable: yes
+     * path: sim/aircraft/overflow/acf_tank_Y_full
+     */
+    XPLM_SIM_AIRCRAFT_OVERFLOW_ACF_TANK_Y_FULL,
+
+    /** @brief ???	fuel tank locations when full - was dim 3 in XP8 and earlier
+     * 
+     * unit: None
+     * size: 9
+     * is writeable: yes
+     * path: sim/aircraft/overflow/acf_tank_Z_full
+     */
+    XPLM_SIM_AIRCRAFT_OVERFLOW_ACF_TANK_Z_FULL,
 
     /** @brief ???	fuel tank ratio per tank -- was dim 3 in xp 8 and earlier
      * 
@@ -4607,15 +4634,6 @@ enum xplm_ref_e
      * path: sim/aircraft/overflow/has_yawdamp_but
      */
     XPLM_SIM_AIRCRAFT_OVERFLOW_HAS_YAWDAMP_BUT,
-
-    /** @brief ???	???
-     * 
-     * unit: None
-     * size: 1
-     * is writeable: yes
-     * path: sim/aircraft/overflow/has_litemap_tex_2
-     */
-    XPLM_SIM_AIRCRAFT_OVERFLOW_HAS_LITEMAP_TEX_2,
 
     /** @brief ???	???
      * 
@@ -5525,6 +5543,15 @@ enum xplm_ref_e
      * path: sim/cockpit/g430/g430_nav_com_sel
      */
     XPLM_SIM_COCKPIT_G430_G430_NAV_COM_SEL,
+
+    /** @brief FMS=0	XPDR=1	COM=2	NAV=3
+     * 
+     * unit: enum
+     * size: 1
+     * is writeable: yes
+     * path: sim/cockpit/g1000/gcu478_input_sel
+     */
+    XPLM_SIM_COCKPIT_G1000_GCU478_INPUT_SEL,
 
     /** @brief ???	The currently programmed GPS course (true degrees)
      * 
@@ -13275,20 +13302,20 @@ enum xplm_ref_e
      */
     XPLM_SIM_FLIGHTMODEL_FAILURES_LO_ROTOR_WARNING,
 
-    /** @brief Aerodynamic forces - sideways - ACF X
+    /** @brief Aerodynamic forces - sideways - ACF X.  Override with override_wing_forces
      * 
      * unit: Newtons
      * size: 1
-     * is writeable: no
+     * is writeable: yes
      * path: sim/flightmodel/forces/fside_aero
      */
     XPLM_SIM_FLIGHTMODEL_FORCES_FSIDE_AERO,
 
-    /** @brief Aerodynamic forces - upward - ACF Y
+    /** @brief Aerodynamic forces - upward - ACF Y.
      * 
      * unit: Newtons
      * size: 1
-     * is writeable: no
+     * is writeable: yes
      * path: sim/flightmodel/forces/fnrml_aero
      */
     XPLM_SIM_FLIGHTMODEL_FORCES_FNRML_AERO,
@@ -13297,12 +13324,12 @@ enum xplm_ref_e
      * 
      * unit: Newtons
      * size: 1
-     * is writeable: no
+     * is writeable: yes
      * path: sim/flightmodel/forces/faxil_aero
      */
     XPLM_SIM_FLIGHTMODEL_FORCES_FAXIL_AERO,
 
-    /** @brief force sideways by all engines on the ACF.  Override with override_engines
+    /** @brief force sideways by all engines on the ACF.  Override with override_engines or override_engine_forces
      * 
      * unit: Newtons
      * size: 1
@@ -13311,7 +13338,7 @@ enum xplm_ref_e
      */
     XPLM_SIM_FLIGHTMODEL_FORCES_FSIDE_PROP,
 
-    /** @brief force upward by all engines on the ACF.  Override with override_engines  Writable in v10 only
+    /** @brief force upward by all engines on the ACF.  Override with override_engines  Writable in v10 only or v11 with override
      * 
      * unit: Newtons
      * size: 1
@@ -13329,11 +13356,11 @@ enum xplm_ref_e
      */
     XPLM_SIM_FLIGHTMODEL_FORCES_FAXIL_PROP,
 
-    /** @brief Gear/ground forces - sideways - ACF X
+    /** @brief Gear/ground forces - sideways - ACF X.  Override with override_gear_forces
      * 
      * unit: Newtons
      * size: 1
-     * is writeable: no
+     * is writeable: yes
      * path: sim/flightmodel/forces/fside_gear
      */
     XPLM_SIM_FLIGHTMODEL_FORCES_FSIDE_GEAR,
@@ -13342,7 +13369,7 @@ enum xplm_ref_e
      * 
      * unit: Newtons
      * size: 1
-     * is writeable: no
+     * is writeable: yes
      * path: sim/flightmodel/forces/fnrml_gear
      */
     XPLM_SIM_FLIGHTMODEL_FORCES_FNRML_GEAR,
@@ -13351,7 +13378,7 @@ enum xplm_ref_e
      * 
      * unit: Newtons
      * size: 1
-     * is writeable: no
+     * is writeable: yes
      * path: sim/flightmodel/forces/faxil_gear
      */
     XPLM_SIM_FLIGHTMODEL_FORCES_FAXIL_GEAR,
@@ -13383,11 +13410,11 @@ enum xplm_ref_e
      */
     XPLM_SIM_FLIGHTMODEL_FORCES_FAXIL_TOTAL,
 
-    /** @brief The roll moment due to aerodynamic forces - positive = right roll.
+    /** @brief The roll moment due to aerodynamic forces - positive = right roll.  Override with Override with override_wing_Forces
      * 
      * unit: NM
      * size: 1
-     * is writeable: no
+     * is writeable: yes
      * path: sim/flightmodel/forces/L_aero
      */
     XPLM_SIM_FLIGHTMODEL_FORCES_L_AERO,
@@ -13396,7 +13423,7 @@ enum xplm_ref_e
      * 
      * unit: NM
      * size: 1
-     * is writeable: no
+     * is writeable: yes
      * path: sim/flightmodel/forces/M_aero
      */
     XPLM_SIM_FLIGHTMODEL_FORCES_M_AERO,
@@ -13405,12 +13432,12 @@ enum xplm_ref_e
      * 
      * unit: NM
      * size: 1
-     * is writeable: no
+     * is writeable: yes
      * path: sim/flightmodel/forces/N_aero
      */
     XPLM_SIM_FLIGHTMODEL_FORCES_N_AERO,
 
-    /** @brief The roll moment due to prop forces. Override with override_engines - positive = right roll.
+    /** @brief The roll moment due to prop forces. Override with override_engines or override_engine_forces - positive = right roll.
      * 
      * unit: NM
      * size: 1
@@ -13437,11 +13464,11 @@ enum xplm_ref_e
      */
     XPLM_SIM_FLIGHTMODEL_FORCES_N_PROP,
 
-    /** @brief The roll moment due to gear forces - positive = right roll.
+    /** @brief The roll moment due to gear forces - positive = right roll.	Override with override_gear_forces
      * 
      * unit: NM
      * size: 1
-     * is writeable: no
+     * is writeable: yes
      * path: sim/flightmodel/forces/L_gear
      */
     XPLM_SIM_FLIGHTMODEL_FORCES_L_GEAR,
@@ -13450,7 +13477,7 @@ enum xplm_ref_e
      * 
      * unit: NM
      * size: 1
-     * is writeable: no
+     * is writeable: yes
      * path: sim/flightmodel/forces/M_gear
      */
     XPLM_SIM_FLIGHTMODEL_FORCES_M_GEAR,
@@ -13459,7 +13486,7 @@ enum xplm_ref_e
      * 
      * unit: NM
      * size: 1
-     * is writeable: no
+     * is writeable: yes
      * path: sim/flightmodel/forces/N_gear
      */
     XPLM_SIM_FLIGHTMODEL_FORCES_N_GEAR,
@@ -13797,36 +13824,36 @@ enum xplm_ref_e
      */
     XPLM_SIM_FLIGHTMODEL_MISC_DISPLACE_RAT,
 
-    /** @brief Indicated barometric altitude, quite probably in feet actually.
+    /** @brief Indicated barometric altitude
      * 
-     * unit: meters
+     * unit: feet
      * size: 1
      * is writeable: yes
      * path: sim/flightmodel/misc/h_ind
      */
     XPLM_SIM_FLIGHTMODEL_MISC_H_IND,
 
-    /** @brief Indicated barometric altitude, quite probably in feet actually.
+    /** @brief Indicated barometric altitude
      * 
-     * unit: meters
+     * unit: feet
      * size: 1
      * is writeable: yes
      * path: sim/flightmodel/misc/h_ind2
      */
     XPLM_SIM_FLIGHTMODEL_MISC_H_IND2,
 
-    /** @brief Indicated barometric altitude, quite probably in feet actually.
+    /** @brief Indicated barometric altitude
      * 
-     * unit: meters
+     * unit: feet
      * size: 1
      * is writeable: yes
      * path: sim/flightmodel/misc/h_ind_copilot
      */
     XPLM_SIM_FLIGHTMODEL_MISC_H_IND_COPILOT,
 
-    /** @brief Indicated barometric altitude, quite probably in feet actually.
+    /** @brief Indicated barometric altitude
      * 
-     * unit: meters
+     * unit: feet
      * size: 1
      * is writeable: yes
      * path: sim/flightmodel/misc/h_ind_copilot2
@@ -16650,6 +16677,15 @@ enum xplm_ref_e
      */
     XPLM_SIM_GRAPHICS_VIEW_PROJECTION_MATRIX,
 
+    /** @brief The current projection matrix during 3-d rendering - it keeps its value during 2-d rendering so youc can figure out how to apply text labels to 3-d stuff.
+     * 
+     * unit: Matrix4x4
+     * size: 16
+     * is writeable: no
+     * path: sim/graphics/view/projection_matrix_3d
+     */
+    XPLM_SIM_GRAPHICS_VIEW_PROJECTION_MATRIX_3D,
+
     /** @brief The current modelview matrix to draw in standard "OGL" coordinates - valid only during draw callbacks
      * 
      * unit: Matrix4x4
@@ -16694,6 +16730,42 @@ enum xplm_ref_e
      * path: sim/graphics/view/is_reverse_float_z
      */
     XPLM_SIM_GRAPHICS_VIEW_IS_REVERSE_FLOAT_Z,
+
+    /** @brief True if current rendering is reversed-Y (+Y = down) - false for conventional +Y=up rendering.  This indicates how the framebuffer is set up - the transform stack will be set up to correctly flip Y if used.
+     * 
+     * unit: Boolean
+     * size: 1
+     * is writeable: no
+     * path: sim/graphics/view/is_reverse_y
+     */
+    XPLM_SIM_GRAPHICS_VIEW_IS_REVERSE_Y,
+
+    /** @brief True if current rendering is being done by a modern Vulkan/Metal driver.  False if we have the GL driver.
+     * 
+     * unit: Boolean
+     * size: 1
+     * is writeable: no
+     * path: sim/graphics/view/using_modern_driver
+     */
+    XPLM_SIM_GRAPHICS_VIEW_USING_MODERN_DRIVER,
+
+    /** @brief During drawing and FL callbacks, this is the correct GL_FRAMEBUFFER binding to restore if you need to render off-screen.  Will be 0 when no bridge FBO is provided
+     * 
+     * unit: GLenum
+     * size: 1
+     * is writeable: no
+     * path: sim/graphics/view/current_gl_fbo
+     */
+    XPLM_SIM_GRAPHICS_VIEW_CURRENT_GL_FBO,
+
+    /** @brief This is the MSAA sample count for rendered windows.  Note that "1" means MSAA is not being used, not that MSAA is being used with a single sample count.
+     * 
+     * unit: count
+     * size: 1
+     * is writeable: no
+     * path: sim/graphics/view/hardware_msaa_samples
+     */
+    XPLM_SIM_GRAPHICS_VIEW_HARDWARE_MSAA_SAMPLES,
 
     /** @brief Do we have a joystick?
      * 
@@ -17031,7 +17103,7 @@ enum xplm_ref_e
     /** @brief True if there is joystick hardware of some kind providing this axis right now.
      * 
      * unit: boolean
-     * size: 65
+     * size: 67
      * is writeable: no
      * path: sim/joystick/joy_mapped_axis_avail
      */
@@ -17040,7 +17112,7 @@ enum xplm_ref_e
     /** @brief Fully processed ratio for each axis - either -1 to 1 or 0 to 1.
      * 
      * unit: float
-     * size: 65
+     * size: 67
      * is writeable: no
      * path: sim/joystick/joy_mapped_axis_value
      */
@@ -22311,7 +22383,7 @@ enum xplm_ref_e
      */
     XPLM_SIM_NETWORK_DATAOUT_EXTERNAL_VISUAL_IP,
 
-    /** @brief True if this remote visual tracks the master's view changes
+    /** @brief True if this remote visual exists
      * 
      * unit: boolean
      * size: 20
@@ -22319,6 +22391,15 @@ enum xplm_ref_e
      * path: sim/network/dataout/track_external_visual
      */
     XPLM_SIM_NETWORK_DATAOUT_TRACK_EXTERNAL_VISUAL,
+
+    /** @brief True if this remote visual tracks the master's view changes
+     * 
+     * unit: boolean
+     * size: 20
+     * is writeable: yes
+     * path: sim/network/dataout/exvis_tracks_view
+     */
+    XPLM_SIM_NETWORK_DATAOUT_EXVIS_TRACKS_VIEW,
 
     /** @brief Has x-plane already inited Open Transport?  YOU SHOULD NEVER USE THIS DATAREF!!!
      * 
@@ -27765,6 +27846,33 @@ enum xplm_ref_e
      */
     XPLM_SIM_OPERATION_OVERRIDE_OVERRIDE_FORCES,
 
+    /** @brief overrides all wing calculations - write to aero LMN and g_nrml/side/axil.
+     * 
+     * unit: boolean
+     * size: 1
+     * is writeable: yes
+     * path: sim/operation/override/override_wing_forces
+     */
+    XPLM_SIM_OPERATION_OVERRIDE_OVERRIDE_WING_FORCES,
+
+    /** @brief overrides all engine calculations - write to prop LMN and g_nrml/side/axil.
+     * 
+     * unit: boolean
+     * size: 1
+     * is writeable: yes
+     * path: sim/operation/override/override_engine_forces
+     */
+    XPLM_SIM_OPERATION_OVERRIDE_OVERRIDE_ENGINE_FORCES,
+
+    /** @brief overrides all gear calculations - write to gear LMN and g_nrml/side/axil.
+     * 
+     * unit: boolean
+     * size: 1
+     * is writeable: yes
+     * path: sim/operation/override/override_gear_forces
+     */
+    XPLM_SIM_OPERATION_OVERRIDE_OVERRIDE_GEAR_FORCES,
+
     /** @brief overrides speed, heading, and rocking of boats. index 0=carrier, 1=frigate
      * 
      * unit: boolean
@@ -27810,7 +27918,7 @@ enum xplm_ref_e
      */
     XPLM_SIM_OPERATION_OVERRIDE_OVERRIDE_FUEL_SYSTEM,
 
-    /** @brief this override lets third party add-ons write to the TCAS source data array
+    /** @brief this override lets third party add-ons write to the TCAS source data array so you can have plugin controlled instances as TCAS targets. Only writeable by the plugin that has the AI planes acquired.
      * 
      * unit: boolean
      * size: 1
@@ -27819,7 +27927,16 @@ enum xplm_ref_e
      */
     XPLM_SIM_OPERATION_OVERRIDE_OVERRIDE_TCAS,
 
-    /** @brief this override gives plguins control of sim/flightmodel2/controls/left_brake_ratio and right_brake_ratio
+    /** @brief this override lets third party add-ons turn off X-Plane's map layer that shows icons for other planes. This allows the plugin to supply their own custom map layer and not conflict with X-Plane. Only writeable by the plugin that has also set override_TCAS.
+     * 
+     * unit: boolean
+     * size: 1
+     * is writeable: yes
+     * path: sim/operation/override/override_multiplayer_map_layer
+     */
+    XPLM_SIM_OPERATION_OVERRIDE_OVERRIDE_MULTIPLAYER_MAP_LAYER,
+
+    /** @brief this override gives plugins control of sim/cockpit2/controls/left_brake_ratio and right_brake_ratio
      * 
      * unit: boolean
      * size: 1
@@ -28349,6 +28466,15 @@ enum xplm_ref_e
      * path: sim/time/framerate_period
      */
     XPLM_SIM_TIME_FRAMERATE_PERIOD,
+
+    /** @brief This is an approximate estimate of GPU time spent per each frame in seconds.  Note that it can be RADICALLY wrong if anything is done wrong by plugins or the driver is weird.  It's for entertainment value only!!!
+     * 
+     * unit: seconds
+     * size: 1
+     * is writeable: no
+     * path: sim/time/gpu_time_per_frame_sec_approx
+     */
+    XPLM_SIM_TIME_GPU_TIME_PER_FRAME_SEC_APPROX,
 
     /** @brief This string contains the date and time that this x-plane was built.
      * 
@@ -30762,6 +30888,24 @@ enum xplm_ref_e
      */
     XPLM_SIM_COCKPIT2_ANNUNCIATORS_WINDSHEAR_WARNING,
 
+    /** @brief Writeable without override. Write 1 to trigger master warning.
+     * 
+     * unit: boolean
+     * size: 1
+     * is writeable: yes
+     * path: sim/cockpit2/annunciators/plugin_master_warning
+     */
+    XPLM_SIM_COCKPIT2_ANNUNCIATORS_PLUGIN_MASTER_WARNING,
+
+    /** @brief Writeable without override. Write 1 to trigger master caution.
+     * 
+     * unit: boolean
+     * size: 1
+     * is writeable: yes
+     * path: sim/cockpit2/annunciators/plugin_master_caution
+     */
+    XPLM_SIM_COCKPIT2_ANNUNCIATORS_PLUGIN_MASTER_CAUTION,
+
     /** @brief Autopilot sources are hardwired to respective side, and two autopilots are available
      * 
      * unit: boolean
@@ -32706,7 +32850,7 @@ enum xplm_ref_e
      */
     XPLM_SIM_COCKPIT2_ENGINE_INDICATORS_TORQUE_N_MTR,
 
-    /** @brief FF, kilograms per second.
+    /** @brief total fuel flow, kilograms per second.
      * 
      * unit: kilograms/second
      * size: 8
@@ -32714,6 +32858,15 @@ enum xplm_ref_e
      * path: sim/cockpit2/engine/indicators/fuel_flow_kg_sec
      */
     XPLM_SIM_COCKPIT2_ENGINE_INDICATORS_FUEL_FLOW_KG_SEC,
+
+    /** @brief dry fuel flow, kilograms per second.
+     * 
+     * unit: kilograms/second
+     * size: 8
+     * is writeable: no
+     * path: sim/cockpit2/engine/indicators/fuel_flow_dry_kg_sec
+     */
+    XPLM_SIM_COCKPIT2_ENGINE_INDICATORS_FUEL_FLOW_DRY_KG_SEC,
 
     /** @brief ITT, deg.  Dataref label is wrong, units vary by plane.
      * 
@@ -32787,7 +32940,7 @@ enum xplm_ref_e
      */
     XPLM_SIM_COCKPIT2_ENGINE_INDICATORS_POWER_WATTS,
 
-    /** @brief Engine thrust in Newtons
+    /** @brief Total engine thrust in Newtons
      * 
      * unit: newtons
      * size: 8
@@ -32795,6 +32948,15 @@ enum xplm_ref_e
      * path: sim/cockpit2/engine/indicators/thrust_n
      */
     XPLM_SIM_COCKPIT2_ENGINE_INDICATORS_THRUST_N,
+
+    /** @brief Dry engine thrust in Newtons
+     * 
+     * unit: newtons
+     * size: 8
+     * is writeable: no
+     * path: sim/cockpit2/engine/indicators/thrust_dry_n
+     */
+    XPLM_SIM_COCKPIT2_ENGINE_INDICATORS_THRUST_DRY_N,
 
     /** @brief Engine speed, radians per second
      * 
@@ -35054,6 +35216,15 @@ enum xplm_ref_e
      * path: sim/cockpit2/radios/actuators/transponder_code
      */
     XPLM_SIM_COCKPIT2_RADIOS_ACTUATORS_TRANSPONDER_CODE,
+
+    /** @brief byte[8]	Flight ID, as transmitted in Mode-S. Up to 7 characters, like N844X or KLM511. This is NOT the Mode-S hexcode!
+     * 
+     * unit: None
+     * size: 8
+     * is writeable: yes
+     * path: sim/cockpit2/radios/actuators/flight_id
+     */
+    XPLM_SIM_COCKPIT2_RADIOS_ACTUATORS_FLIGHT_ID,
 
     /** @brief Transponder mode (off=0,stdby=1,on=2,test=3)
      * 
@@ -38340,11 +38511,11 @@ enum xplm_ref_e
      */
     XPLM_SIM_COCKPIT2_SWITCHES_TOTAL_ENERGY_AUDIO_ON,
 
-    /** @brief Relative bearing of each other plane in degrees for TCAS
+    /** @brief Relative bearing of each other plane in degrees for TCAS - relative to sim/flightmodel/position/true_psi not ground track or anything else
      * 
      * unit: degrees
-     * size: 20
-     * is writeable: no
+     * size: 64
+     * is writeable: yes
      * path: sim/cockpit2/tcas/indicators/relative_bearing_degs
      */
     XPLM_SIM_COCKPIT2_TCAS_INDICATORS_RELATIVE_BEARING_DEGS,
@@ -38352,8 +38523,8 @@ enum xplm_ref_e
     /** @brief Distance to each other plane in meters for TCAS
      * 
      * unit: meters
-     * size: 20
-     * is writeable: no
+     * size: 64
+     * is writeable: yes
      * path: sim/cockpit2/tcas/indicators/relative_distance_mtrs
      */
     XPLM_SIM_COCKPIT2_TCAS_INDICATORS_RELATIVE_DISTANCE_MTRS,
@@ -38361,8 +38532,8 @@ enum xplm_ref_e
     /** @brief Relative altitude (positive means above us) for TCAS
      * 
      * unit: meters
-     * size: 20
-     * is writeable: no
+     * size: 64
+     * is writeable: yes
      * path: sim/cockpit2/tcas/indicators/relative_altitude_mtrs
      */
     XPLM_SIM_COCKPIT2_TCAS_INDICATORS_RELATIVE_ALTITUDE_MTRS,
@@ -38371,10 +38542,2008 @@ enum xplm_ref_e
      * 
      * unit: boolean
      * size: 1
-     * is writeable: no
+     * is writeable: yes
      * path: sim/cockpit2/tcas/indicators/tcas_alert
      */
     XPLM_SIM_COCKPIT2_TCAS_INDICATORS_TCAS_ALERT,
+
+    /** @brief If TCAS is not overriden by plgugin, returns the number of planes in X-Plane, which might be under plugin control or X-Plane control. If TCAS is overriden, returns how many targets are actually being written to with the override. These are not necessarily consecutive entries in the TCAS arrays.
+     * 
+     * unit: integer
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/indicators/tcas_num_acf
+     */
+    XPLM_SIM_COCKPIT2_TCAS_INDICATORS_TCAS_NUM_ACF,
+
+    /** @brief 24bit (0-16777215 or 0 - 0xFFFFFF) unique ID of the airframe. This is also known as the ADS-B "hexcode".
+     * 
+     * unit: integer
+     * size: 64
+     * is writeable: yes
+     * path: sim/cockpit2/tcas/targets/modeS_id
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_MODES_ID,
+
+    /** @brief Mode C transponder code 0000 to 7777. This is not really an integer, this is an octal number.
+     * 
+     * unit: integer
+     * size: 64
+     * is writeable: yes
+     * path: sim/cockpit2/tcas/targets/modeC_code
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_MODEC_CODE,
+
+    /** @brief 7 character Flight ID, terminated by 0 byte. ICAO flightplan item 7.
+     * 
+     * unit: string
+     * size: 512
+     * is writeable: yes
+     * path: sim/cockpit2/tcas/targets/flight_id
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_FLIGHT_ID,
+
+    /** @brief 7 character ICAO code, terminated by 0 byte. C172, B738, etc... see https://www.icao.int/publications/DOC8643/Pages/Search.aspx
+     * 
+     * unit: string
+     * size: 512
+     * is writeable: yes
+     * path: sim/cockpit2/tcas/targets/icao_type
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_ICAO_TYPE,
+
+    /** @brief local X coordinate, meter. Writeable only when override_TCAS is set.
+     * 
+     * unit: meter
+     * size: 64
+     * is writeable: yes
+     * path: sim/cockpit2/tcas/targets/position/x
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_X,
+
+    /** @brief local Y coordinate, meter. Writeable only when override_TCAS is set.
+     * 
+     * unit: meter
+     * size: 64
+     * is writeable: yes
+     * path: sim/cockpit2/tcas/targets/position/y
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_Y,
+
+    /** @brief local Z coordinate, meter. Writeable only when override_TCAS is set.
+     * 
+     * unit: meter
+     * size: 64
+     * is writeable: yes
+     * path: sim/cockpit2/tcas/targets/position/z
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_Z,
+
+    /** @brief global coordinate, degrees.
+     * 
+     * unit: degrees
+     * size: 64
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_LAT,
+
+    /** @brief global coordinate, degrees.
+     * 
+     * unit: degrees
+     * size: 64
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 64
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_ELE,
+
+    /** @brief local X velocity. Writeable only when override_TCAS is set.
+     * 
+     * unit: meter/s
+     * size: 64
+     * is writeable: yes
+     * path: sim/cockpit2/tcas/targets/position/vx
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_VX,
+
+    /** @brief local Y velocity. Writeable only when override_TCAS is set.
+     * 
+     * unit: meter/s
+     * size: 64
+     * is writeable: yes
+     * path: sim/cockpit2/tcas/targets/position/vy
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_VY,
+
+    /** @brief local Z velocity. Writeable only when override_TCAS is set.
+     * 
+     * unit: meter/s
+     * size: 64
+     * is writeable: yes
+     * path: sim/cockpit2/tcas/targets/position/vz
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_VZ,
+
+    /** @brief absolute vertical speed feet per minute. Writeable only when override_TCAS is set.
+     * 
+     * unit: feet/min
+     * size: 64
+     * is writeable: yes
+     * path: sim/cockpit2/tcas/targets/position/vertical_speed
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_VERTICAL_SPEED,
+
+    /** @brief ground track in true degrees. Derived from velocity vector.
+     * 
+     * unit: degrees
+     * size: 64
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/hpath
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_HPATH,
+
+    /** @brief flight path angle in degrees. Derived from velocity vector.
+     * 
+     * unit: degrees
+     * size: 64
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/vpath
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_VPATH,
+
+    /** @brief total true speed, norm of local velocity vector. That means it includes vertical speed!
+     * 
+     * unit: meter/s
+     * size: 64
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/V_msc
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_V_MSC,
+
+    /** @brief true heading orientation. Writeable only when override_TCAS is set.
+     * 
+     * unit: degrees
+     * size: 64
+     * is writeable: yes
+     * path: sim/cockpit2/tcas/targets/position/psi
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_PSI,
+
+    /** @brief pitch angle. Writeable only when override_TCAS is set.
+     * 
+     * unit: degrees
+     * size: 64
+     * is writeable: yes
+     * path: sim/cockpit2/tcas/targets/position/the
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_THE,
+
+    /** @brief bank angle. Writeable only when override_TCAS is set.
+     * 
+     * unit: degrees
+     * size: 64
+     * is writeable: yes
+     * path: sim/cockpit2/tcas/targets/position/phi
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_PHI,
+
+    /** @brief ground/flight logic. Writeable only when override_TCAS is set.
+     * 
+     * unit: boolean
+     * size: 64
+     * is writeable: yes
+     * path: sim/cockpit2/tcas/targets/position/weight_on_wheels
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_WEIGHT_ON_WHEELS,
+
+    /** @brief mirror of sim/multiplayer/position/planeN_gear_deploy[0]
+     * 
+     * unit: ratio
+     * size: 64
+     * is writeable: yes
+     * path: sim/cockpit2/tcas/targets/position/gear_deploy
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_GEAR_DEPLOY,
+
+    /** @brief mirror of sim/multiplayer/position/planeN_flap_ratio
+     * 
+     * unit: ratio
+     * size: 64
+     * is writeable: yes
+     * path: sim/cockpit2/tcas/targets/position/flap_ratio
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_FLAP_RATIO,
+
+    /** @brief mirror of sim/multiplayer/position/planeN_flap_ratio2
+     * 
+     * unit: ratio
+     * size: 64
+     * is writeable: yes
+     * path: sim/cockpit2/tcas/targets/position/flap_ratio2
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_FLAP_RATIO2,
+
+    /** @brief mirror of sim/multiplayer/position/planeN_speedbrake_ratio
+     * 
+     * unit: ratio
+     * size: 64
+     * is writeable: yes
+     * path: sim/cockpit2/tcas/targets/position/speedbrake_ratio
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_SPEEDBRAKE_RATIO,
+
+    /** @brief mirror of sim/multiplayer/position/planeN_slat_ratio
+     * 
+     * unit: ratio
+     * size: 64
+     * is writeable: yes
+     * path: sim/cockpit2/tcas/targets/position/slat_ratio
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_SLAT_RATIO,
+
+    /** @brief mirror of sim/multiplayer/position/planeN_wing_sweep
+     * 
+     * unit: ratio
+     * size: 64
+     * is writeable: yes
+     * path: sim/cockpit2/tcas/targets/position/wing_sweep
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_WING_SWEEP,
+
+    /** @brief mirror of sim/multiplayer/position/planeN_throttle[0]
+     * 
+     * unit: ratio
+     * size: 64
+     * is writeable: yes
+     * path: sim/cockpit2/tcas/targets/position/throttle
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_THROTTLE,
+
+    /** @brief mirror of sim/multiplayer/position/planeN_yolk_pitch
+     * 
+     * unit: ratio
+     * size: 64
+     * is writeable: yes
+     * path: sim/cockpit2/tcas/targets/position/yolk_pitch
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_YOLK_PITCH,
+
+    /** @brief mirror of sim/multiplayer/position/planeN_yolk_roll
+     * 
+     * unit: ratio
+     * size: 64
+     * is writeable: yes
+     * path: sim/cockpit2/tcas/targets/position/yolk_roll
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_YOLK_ROLL,
+
+    /** @brief mirror of sim/multiplayer/position/planeN_yolk_yaw
+     * 
+     * unit: ratio
+     * size: 64
+     * is writeable: yes
+     * path: sim/cockpit2/tcas/targets/position/yolk_yaw
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_YOLK_YAW,
+
+    /** @brief beacon=1, land=2, nav=4, strobe=8, taxi=16
+     * 
+     * unit: bitfield
+     * size: 64
+     * is writeable: yes
+     * path: sim/cockpit2/tcas/targets/position/lights
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_LIGHTS,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane1_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE1_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane1_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE1_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane1_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE1_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane2_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE2_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane2_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE2_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane2_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE2_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane3_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE3_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane3_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE3_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane3_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE3_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane4_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE4_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane4_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE4_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane4_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE4_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane5_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE5_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane5_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE5_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane5_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE5_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane6_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE6_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane6_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE6_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane6_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE6_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane7_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE7_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane7_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE7_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane7_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE7_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane8_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE8_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane8_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE8_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane8_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE8_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane9_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE9_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane9_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE9_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane9_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE9_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane10_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE10_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane10_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE10_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane10_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE10_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane11_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE11_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane11_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE11_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane11_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE11_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane12_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE12_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane12_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE12_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane12_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE12_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane13_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE13_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane13_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE13_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane13_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE13_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane14_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE14_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane14_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE14_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane14_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE14_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane15_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE15_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane15_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE15_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane15_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE15_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane16_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE16_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane16_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE16_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane16_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE16_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane17_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE17_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane17_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE17_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane17_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE17_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane18_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE18_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane18_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE18_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane18_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE18_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane19_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE19_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane19_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE19_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane19_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE19_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane20_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE20_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane20_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE20_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane20_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE20_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane21_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE21_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane21_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE21_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane21_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE21_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane22_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE22_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane22_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE22_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane22_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE22_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane23_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE23_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane23_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE23_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane23_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE23_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane24_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE24_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane24_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE24_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane24_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE24_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane25_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE25_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane25_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE25_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane25_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE25_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane26_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE26_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane26_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE26_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane26_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE26_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane27_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE27_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane27_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE27_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane27_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE27_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane28_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE28_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane28_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE28_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane28_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE28_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane29_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE29_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane29_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE29_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane29_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE29_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane30_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE30_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane30_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE30_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane30_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE30_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane31_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE31_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane31_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE31_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane31_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE31_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane32_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE32_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane32_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE32_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane32_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE32_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane33_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE33_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane33_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE33_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane33_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE33_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane34_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE34_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane34_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE34_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane34_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE34_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane35_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE35_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane35_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE35_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane35_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE35_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane36_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE36_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane36_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE36_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane36_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE36_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane37_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE37_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane37_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE37_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane37_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE37_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane38_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE38_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane38_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE38_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane38_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE38_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane39_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE39_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane39_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE39_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane39_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE39_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane40_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE40_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane40_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE40_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane40_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE40_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane41_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE41_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane41_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE41_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane41_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE41_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane42_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE42_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane42_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE42_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane42_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE42_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane43_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE43_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane43_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE43_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane43_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE43_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane44_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE44_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane44_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE44_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane44_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE44_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane45_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE45_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane45_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE45_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane45_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE45_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane46_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE46_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane46_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE46_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane46_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE46_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane47_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE47_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane47_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE47_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane47_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE47_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane48_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE48_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane48_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE48_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane48_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE48_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane49_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE49_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane49_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE49_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane49_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE49_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane50_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE50_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane50_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE50_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane50_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE50_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane51_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE51_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane51_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE51_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane51_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE51_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane52_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE52_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane52_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE52_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane52_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE52_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane53_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE53_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane53_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE53_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane53_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE53_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane54_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE54_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane54_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE54_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane54_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE54_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane55_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE55_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane55_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE55_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane55_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE55_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane56_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE56_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane56_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE56_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane56_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE56_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane57_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE57_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane57_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE57_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane57_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE57_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane58_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE58_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane58_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE58_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane58_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE58_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane59_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE59_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane59_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE59_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane59_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE59_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane60_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE60_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane60_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE60_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane60_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE60_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane61_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE61_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane61_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE61_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane61_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE61_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane62_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE62_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane62_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE62_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane62_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE62_ELE,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane63_lat
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE63_LAT,
+
+    /** @brief global coordinate, degrees
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane63_lon
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE63_LON,
+
+    /** @brief global coordinate, meter.
+     * 
+     * unit: meter
+     * size: 1
+     * is writeable: no
+     * path: sim/cockpit2/tcas/targets/position/double/plane63_ele
+     */
+    XPLM_SIM_COCKPIT2_TCAS_TARGETS_POSITION_DOUBLE_PLANE63_ELE,
 
     /** @brief outside air temperature, pilot selects units
      * 
@@ -39069,6 +41238,15 @@ enum xplm_ref_e
      */
     XPLM_SIM_FLIGHTMODEL2_ENGINES_PROP_DISC_DISC_WIDTH,
 
+    /** @brief Ratio to scale the length of the side image.  1.0 = the real length of the prop.
+     * 
+     * unit: ratio
+     * size: 8
+     * is writeable: yes
+     * path: sim/flightmodel2/engines/prop_disc/disc_length_ratio
+     */
+    XPLM_SIM_FLIGHTMODEL2_ENGINES_PROP_DISC_DISC_LENGTH_RATIO,
+
     /** @brief Offset from left (in "slots") for the prop disc texture.  Fractions blend horizontal images.
      * 
      * unit: offset
@@ -39726,6 +41904,105 @@ enum xplm_ref_e
      */
     XPLM_SIM_FLIGHTMODEL2_MISC_HAS_CRASHED,
 
+    /** @brief The pitch of the aircraft relative to the earth precisely below the aircraft
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/flightmodel2/position/true_theta
+     */
+    XPLM_SIM_FLIGHTMODEL2_POSITION_TRUE_THETA,
+
+    /** @brief The roll of the aircraft relative to the earth precisely below the aircraft
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/flightmodel2/position/true_phi
+     */
+    XPLM_SIM_FLIGHTMODEL2_POSITION_TRUE_PHI,
+
+    /** @brief The heading of the aircraft relative to the earth precisely below the aircraft - true degrees north, always
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/flightmodel2/position/true_psi
+     */
+    XPLM_SIM_FLIGHTMODEL2_POSITION_TRUE_PSI,
+
+    /** @brief The real magnetic heading of the aircraft - the old magpsi dataref was FUBAR
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/flightmodel2/position/mag_psi
+     */
+    XPLM_SIM_FLIGHTMODEL2_POSITION_MAG_PSI,
+
+    /** @brief The pitch relative to the flown path (angle of attack)
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/flightmodel2/position/alpha
+     */
+    XPLM_SIM_FLIGHTMODEL2_POSITION_ALPHA,
+
+    /** @brief The heading relative to the flown path (yaw)
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/flightmodel2/position/beta
+     */
+    XPLM_SIM_FLIGHTMODEL2_POSITION_BETA,
+
+    /** @brief The pitch the aircraft actually flies.  (vpath+alpha=theta)
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/flightmodel2/position/vpath
+     */
+    XPLM_SIM_FLIGHTMODEL2_POSITION_VPATH,
+
+    /** @brief The heading the aircraft actually flies.  (hpath+beta=psi)
+     * 
+     * unit: degrees
+     * size: 1
+     * is writeable: no
+     * path: sim/flightmodel2/position/hpath
+     */
+    XPLM_SIM_FLIGHTMODEL2_POSITION_HPATH,
+
+    /** @brief The ground speed of the aircraft
+     * 
+     * unit: meters/sec
+     * size: 1
+     * is writeable: no
+     * path: sim/flightmodel2/position/groundspeed
+     */
+    XPLM_SIM_FLIGHTMODEL2_POSITION_GROUNDSPEED,
+
+    /** @brief Air speed true - this does not take into account air density at altitude!
+     * 
+     * unit: meters/sec
+     * size: 1
+     * is writeable: no
+     * path: sim/flightmodel2/position/true_airspeed
+     */
+    XPLM_SIM_FLIGHTMODEL2_POSITION_TRUE_AIRSPEED,
+
+    /** @brief 
+     * 
+     * unit: None
+     * size: 1
+     * is writeable: no
+     * path: sim/flightmodel2/position/y_agl
+     */
+    XPLM_SIM_FLIGHTMODEL2_POSITION_Y_AGL,
+
     /** @brief Deflection of the aileron from set #1 on this wing. Degrees, positive is trailing-edge down.
      * 
      * unit: degrees
@@ -39897,6 +42174,15 @@ enum xplm_ref_e
      */
     XPLM_SIM_FLIGHTMODEL2_WING_ELEMENTS_ELEMENT_CONDENSATION_RATIO,
 
+    /** @brief Per element - is this element stalled?
+     * 
+     * unit: boolean
+     * size: 320
+     * is writeable: no
+     * path: sim/flightmodel2/wing/elements/element_is_stalled
+     */
+    XPLM_SIM_FLIGHTMODEL2_WING_ELEMENTS_ELEMENT_IS_STALLED,
+
     /** @brief For OBJs used to draw VR controllers: the X deflection (or axis deflection) of each axis on the controller.
      * 
      * unit: Ratio
@@ -39990,6 +42276,7 @@ const xplm_ref_t xplm_ref[MAXSIZEREFS] = {
     {"sim/aircraft/autopilot/ah_source", XPLM_INT, 1, XPLM_NONWRITABLE},
     {"sim/aircraft/autopilot/dg_source", XPLM_INT, 1, XPLM_NONWRITABLE},
     {"sim/aircraft/view/acf_tailnum", XPLM_BYTE, 40, XPLM_WRITABLE},
+    {"sim/aircraft/view/acf_modeS_id", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/aircraft/view/acf_author", XPLM_BYTE, 500, XPLM_WRITABLE},
     {"sim/aircraft/view/acf_descrip", XPLM_BYTE, 260, XPLM_WRITABLE},
     {"sim/aircraft/view/acf_notes", XPLM_BYTE, 240, XPLM_WRITABLE},
@@ -39999,7 +42286,6 @@ const xplm_ref_t xplm_ref[MAXSIZEREFS] = {
     {"sim/aircraft/view/acf_cockpit_type", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/aircraft/view/acf_has_SC_fd", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/aircraft/view/acf_has_stallwarn", XPLM_INT, 1, XPLM_WRITABLE},
-    {"sim/aircraft/view/acf_has_litemap_tex", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/aircraft/view/acf_peX", XPLM_FLOAT, 1, XPLM_WRITABLE},
     {"sim/aircraft/view/acf_peY", XPLM_FLOAT, 1, XPLM_WRITABLE},
     {"sim/aircraft/view/acf_peZ", XPLM_FLOAT, 1, XPLM_WRITABLE},
@@ -40425,6 +42711,9 @@ const xplm_ref_t xplm_ref[MAXSIZEREFS] = {
     {"sim/aircraft/overflow/acf_tank_X", XPLM_FLOAT, 9, XPLM_WRITABLE},
     {"sim/aircraft/overflow/acf_tank_Y", XPLM_FLOAT, 9, XPLM_WRITABLE},
     {"sim/aircraft/overflow/acf_tank_Z", XPLM_FLOAT, 9, XPLM_WRITABLE},
+    {"sim/aircraft/overflow/acf_tank_X_full", XPLM_FLOAT, 9, XPLM_WRITABLE},
+    {"sim/aircraft/overflow/acf_tank_Y_full", XPLM_FLOAT, 9, XPLM_WRITABLE},
+    {"sim/aircraft/overflow/acf_tank_Z_full", XPLM_FLOAT, 9, XPLM_WRITABLE},
     {"sim/aircraft/overflow/acf_tank_rat", XPLM_FLOAT, 9, XPLM_WRITABLE},
     {"sim/aircraft/overflow/acf_stall_warn_alpha", XPLM_FLOAT, 1, XPLM_WRITABLE},
     {"sim/aircraft/overflow/acf_mass_shift", XPLM_FLOAT, 1, XPLM_WRITABLE},
@@ -40486,7 +42775,6 @@ const xplm_ref_t xplm_ref[MAXSIZEREFS] = {
     {"sim/aircraft/overflow/acf_has_fuel_any", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/aircraft/overflow/has_hsi", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/aircraft/overflow/has_yawdamp_but", XPLM_INT, 1, XPLM_WRITABLE},
-    {"sim/aircraft/overflow/has_litemap_tex_2", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/aircraft/overflow/has_transonic_audio", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/aircraft/overflow/has_pre_rotate", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/aircraft/overflow/SFC_alt_lo_PRP", XPLM_FLOAT, 1, XPLM_WRITABLE},
@@ -40588,6 +42876,7 @@ const xplm_ref_t xplm_ref[MAXSIZEREFS] = {
     {"sim/cockpit/engine/APU_running", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/cockpit/engine/APU_N1", XPLM_FLOAT, 1, XPLM_WRITABLE},
     {"sim/cockpit/g430/g430_nav_com_sel", XPLM_INT, 2, XPLM_WRITABLE},
+    {"sim/cockpit/g1000/gcu478_input_sel", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/cockpit/gps/course", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
     {"sim/cockpit/gps/destination_type", XPLM_INT, 1, XPLM_NONWRITABLE},
     {"sim/cockpit/gps/destination_index", XPLM_INT, 1, XPLM_NONWRITABLE},
@@ -41449,27 +43738,27 @@ const xplm_ref_t xplm_ref[MAXSIZEREFS] = {
     {"sim/flightmodel/failures/onground_all", XPLM_INT, 1, XPLM_NONWRITABLE},
     {"sim/flightmodel/failures/smoking", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/flightmodel/failures/lo_rotor_warning", XPLM_INT, 1, XPLM_WRITABLE},
-    {"sim/flightmodel/forces/fside_aero", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
-    {"sim/flightmodel/forces/fnrml_aero", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
-    {"sim/flightmodel/forces/faxil_aero", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
+    {"sim/flightmodel/forces/fside_aero", XPLM_FLOAT, 1, XPLM_WRITABLE},
+    {"sim/flightmodel/forces/fnrml_aero", XPLM_FLOAT, 1, XPLM_WRITABLE},
+    {"sim/flightmodel/forces/faxil_aero", XPLM_FLOAT, 1, XPLM_WRITABLE},
     {"sim/flightmodel/forces/fside_prop", XPLM_FLOAT, 1, XPLM_WRITABLE},
     {"sim/flightmodel/forces/fnrml_prop", XPLM_FLOAT, 1, XPLM_WRITABLE},
     {"sim/flightmodel/forces/faxil_prop", XPLM_FLOAT, 1, XPLM_WRITABLE},
-    {"sim/flightmodel/forces/fside_gear", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
-    {"sim/flightmodel/forces/fnrml_gear", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
-    {"sim/flightmodel/forces/faxil_gear", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
+    {"sim/flightmodel/forces/fside_gear", XPLM_FLOAT, 1, XPLM_WRITABLE},
+    {"sim/flightmodel/forces/fnrml_gear", XPLM_FLOAT, 1, XPLM_WRITABLE},
+    {"sim/flightmodel/forces/faxil_gear", XPLM_FLOAT, 1, XPLM_WRITABLE},
     {"sim/flightmodel/forces/fside_total", XPLM_FLOAT, 1, XPLM_WRITABLE},
     {"sim/flightmodel/forces/fnrml_total", XPLM_FLOAT, 1, XPLM_WRITABLE},
     {"sim/flightmodel/forces/faxil_total", XPLM_FLOAT, 1, XPLM_WRITABLE},
-    {"sim/flightmodel/forces/L_aero", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
-    {"sim/flightmodel/forces/M_aero", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
-    {"sim/flightmodel/forces/N_aero", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
+    {"sim/flightmodel/forces/L_aero", XPLM_FLOAT, 1, XPLM_WRITABLE},
+    {"sim/flightmodel/forces/M_aero", XPLM_FLOAT, 1, XPLM_WRITABLE},
+    {"sim/flightmodel/forces/N_aero", XPLM_FLOAT, 1, XPLM_WRITABLE},
     {"sim/flightmodel/forces/L_prop", XPLM_FLOAT, 1, XPLM_WRITABLE},
     {"sim/flightmodel/forces/M_prop", XPLM_FLOAT, 1, XPLM_WRITABLE},
     {"sim/flightmodel/forces/N_prop", XPLM_FLOAT, 1, XPLM_WRITABLE},
-    {"sim/flightmodel/forces/L_gear", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
-    {"sim/flightmodel/forces/M_gear", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
-    {"sim/flightmodel/forces/N_gear", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
+    {"sim/flightmodel/forces/L_gear", XPLM_FLOAT, 1, XPLM_WRITABLE},
+    {"sim/flightmodel/forces/M_gear", XPLM_FLOAT, 1, XPLM_WRITABLE},
+    {"sim/flightmodel/forces/N_gear", XPLM_FLOAT, 1, XPLM_WRITABLE},
     {"sim/flightmodel/forces/L_mass", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
     {"sim/flightmodel/forces/M_mass", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
     {"sim/flightmodel/forces/N_mass", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
@@ -41824,11 +44113,16 @@ const xplm_ref_t xplm_ref[MAXSIZEREFS] = {
     {"sim/graphics/view/eq_trackir", XPLM_INT, 1, XPLM_NONWRITABLE},
     {"sim/graphics/view/hide_yoke", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/graphics/view/projection_matrix", XPLM_FLOAT, 16, XPLM_NONWRITABLE},
+    {"sim/graphics/view/projection_matrix_3d", XPLM_FLOAT, 16, XPLM_NONWRITABLE},
     {"sim/graphics/view/world_matrix", XPLM_FLOAT, 16, XPLM_NONWRITABLE},
     {"sim/graphics/view/acf_matrix", XPLM_FLOAT, 16, XPLM_NONWRITABLE},
     {"sim/graphics/view/modelview_matrix", XPLM_FLOAT, 16, XPLM_NONWRITABLE},
     {"sim/graphics/view/viewport", XPLM_INT, 4, XPLM_NONWRITABLE},
     {"sim/graphics/view/is_reverse_float_z", XPLM_INT, 1, XPLM_NONWRITABLE},
+    {"sim/graphics/view/is_reverse_y", XPLM_INT, 1, XPLM_NONWRITABLE},
+    {"sim/graphics/view/using_modern_driver", XPLM_INT, 1, XPLM_NONWRITABLE},
+    {"sim/graphics/view/current_gl_fbo", XPLM_INT, 1, XPLM_NONWRITABLE},
+    {"sim/graphics/view/hardware_msaa_samples", XPLM_INT, 1, XPLM_NONWRITABLE},
     {"sim/joystick/has_joystick", XPLM_INT, 1, XPLM_NONWRITABLE},
     {"sim/joystick/mouse_is_joystick", XPLM_INT, 1, XPLM_NONWRITABLE},
     {"sim/joystick/mouse_can_be_joystick", XPLM_INT, 1, XPLM_NONWRITABLE},
@@ -41866,8 +44160,8 @@ const xplm_ref_t xplm_ref[MAXSIZEREFS] = {
     {"sim/joystick/joystick_axis_minimum", XPLM_FLOAT, 500, XPLM_WRITABLE},
     {"sim/joystick/joystick_axis_maximum", XPLM_FLOAT, 500, XPLM_WRITABLE},
     {"sim/joystick/joystick_button_values", XPLM_INT, 3200, XPLM_NONWRITABLE},
-    {"sim/joystick/joy_mapped_axis_avail", XPLM_INT, 65, XPLM_NONWRITABLE},
-    {"sim/joystick/joy_mapped_axis_value", XPLM_FLOAT, 65, XPLM_NONWRITABLE},
+    {"sim/joystick/joy_mapped_axis_avail", XPLM_INT, 67, XPLM_NONWRITABLE},
+    {"sim/joystick/joy_mapped_axis_value", XPLM_FLOAT, 67, XPLM_NONWRITABLE},
     {"sim/joystick/eq_ped_nobrk", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/joystick/eq_ped_wibrk", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/joystick/eq_pfc_pedals", XPLM_INT, 1, XPLM_WRITABLE},
@@ -42454,6 +44748,7 @@ const xplm_ref_t xplm_ref[MAXSIZEREFS] = {
     {"sim/network/dataout/multiplayer_ip", XPLM_INT, 19, XPLM_NONWRITABLE},
     {"sim/network/dataout/external_visual_ip", XPLM_INT, 20, XPLM_NONWRITABLE},
     {"sim/network/dataout/track_external_visual", XPLM_INT, 20, XPLM_NONWRITABLE},
+    {"sim/network/dataout/exvis_tracks_view", XPLM_INT, 20, XPLM_WRITABLE},
     {"sim/network/misc/opentransport_inited", XPLM_INT, 1, XPLM_NONWRITABLE},
     {"sim/network/misc/network_time_sec", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
     {"sim/physics/earth_mu", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
@@ -43059,12 +45354,16 @@ const xplm_ref_t xplm_ref[MAXSIZEREFS] = {
     {"sim/operation/override/override_engines", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/operation/override/override_torque_motors", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/operation/override/override_forces", XPLM_INT, 1, XPLM_WRITABLE},
+    {"sim/operation/override/override_wing_forces", XPLM_INT, 1, XPLM_WRITABLE},
+    {"sim/operation/override/override_engine_forces", XPLM_INT, 1, XPLM_WRITABLE},
+    {"sim/operation/override/override_gear_forces", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/operation/override/override_boats", XPLM_INT, 2, XPLM_WRITABLE},
     {"sim/operation/override/override_clouds", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/operation/override/override_wheel_steer", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/operation/override/override_airport_lites", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/operation/override/override_fuel_system", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/operation/override/override_TCAS", XPLM_INT, 1, XPLM_WRITABLE},
+    {"sim/operation/override/override_multiplayer_map_layer", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/operation/override/override_toe_brakes", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/operation/override/override_ground_trucks", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/operation/override/override_timestep", XPLM_INT, 1, XPLM_WRITABLE},
@@ -43124,6 +45423,7 @@ const xplm_ref_t xplm_ref[MAXSIZEREFS] = {
     {"sim/time/hobbs_time", XPLM_FLOAT, 1, XPLM_WRITABLE},
     {"sim/time/is_in_replay", XPLM_INT, 1, XPLM_NONWRITABLE},
     {"sim/time/framerate_period", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
+    {"sim/time/gpu_time_per_frame_sec_approx", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
     {"sim/version/sim_build_string", XPLM_BYTE, 256, XPLM_NONWRITABLE},
     {"sim/version/xplm_build_string", XPLM_BYTE, 256, XPLM_NONWRITABLE},
     {"sim/version/xplanee_internal_version", XPLM_INT, 1, XPLM_NONWRITABLE},
@@ -43392,6 +45692,8 @@ const xplm_ref_t xplm_ref[MAXSIZEREFS] = {
     {"sim/cockpit2/annunciators/no_smoking", XPLM_INT, 1, XPLM_NONWRITABLE},
     {"sim/cockpit2/annunciators/fasten_seatbelt", XPLM_INT, 1, XPLM_NONWRITABLE},
     {"sim/cockpit2/annunciators/windshear_warning", XPLM_INT, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/annunciators/plugin_master_warning", XPLM_INT, 1, XPLM_WRITABLE},
+    {"sim/cockpit2/annunciators/plugin_master_caution", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/cockpit2/autopilot/autopilot2_avail", XPLM_INT, 1, XPLM_NONWRITABLE},
     {"sim/cockpit2/autopilot/master_flight_director", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/cockpit2/autopilot/autopilot_source", XPLM_INT, 1, XPLM_WRITABLE},
@@ -43609,6 +45911,7 @@ const xplm_ref_t xplm_ref[MAXSIZEREFS] = {
     {"sim/cockpit2/engine/indicators/EPR_ratio", XPLM_FLOAT, 8, XPLM_NONWRITABLE},
     {"sim/cockpit2/engine/indicators/torque_n_mtr", XPLM_FLOAT, 8, XPLM_NONWRITABLE},
     {"sim/cockpit2/engine/indicators/fuel_flow_kg_sec", XPLM_FLOAT, 8, XPLM_NONWRITABLE},
+    {"sim/cockpit2/engine/indicators/fuel_flow_dry_kg_sec", XPLM_FLOAT, 8, XPLM_NONWRITABLE},
     {"sim/cockpit2/engine/indicators/ITT_deg_C", XPLM_FLOAT, 8, XPLM_NONWRITABLE},
     {"sim/cockpit2/engine/indicators/EGT_deg_C", XPLM_FLOAT, 8, XPLM_NONWRITABLE},
     {"sim/cockpit2/engine/indicators/CHT_deg_C", XPLM_FLOAT, 8, XPLM_NONWRITABLE},
@@ -43618,6 +45921,7 @@ const xplm_ref_t xplm_ref[MAXSIZEREFS] = {
     {"sim/cockpit2/engine/indicators/oil_quantity_ratio", XPLM_FLOAT, 8, XPLM_NONWRITABLE},
     {"sim/cockpit2/engine/indicators/power_watts", XPLM_FLOAT, 8, XPLM_NONWRITABLE},
     {"sim/cockpit2/engine/indicators/thrust_n", XPLM_FLOAT, 8, XPLM_NONWRITABLE},
+    {"sim/cockpit2/engine/indicators/thrust_dry_n", XPLM_FLOAT, 8, XPLM_NONWRITABLE},
     {"sim/cockpit2/engine/indicators/engine_speed_rpm", XPLM_FLOAT, 8, XPLM_NONWRITABLE},
     {"sim/cockpit2/engine/indicators/prop_speed_rpm", XPLM_FLOAT, 8, XPLM_NONWRITABLE},
     {"sim/cockpit2/engine/indicators/carburetor_temperature_C", XPLM_FLOAT, 8, XPLM_NONWRITABLE},
@@ -43869,6 +46173,7 @@ const xplm_ref_t xplm_ref[MAXSIZEREFS] = {
     {"sim/cockpit2/radios/actuators/DME_slave_source", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/cockpit2/radios/actuators/nav_com_adf_mode", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/cockpit2/radios/actuators/transponder_code", XPLM_INT, 1, XPLM_WRITABLE},
+    {"sim/cockpit2/radios/actuators/flight_id", XPLM_BYTE, 8, XPLM_WRITABLE},
     {"sim/cockpit2/radios/actuators/transponder_mode", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/cockpit2/radios/actuators/audio_com_selection", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/cockpit2/radios/actuators/audio_nav_selection", XPLM_INT, 1, XPLM_WRITABLE},
@@ -44234,10 +46539,232 @@ const xplm_ref_t xplm_ref[MAXSIZEREFS] = {
     {"sim/cockpit2/switches/HUD_brightness_ratio", XPLM_FLOAT, 1, XPLM_WRITABLE},
     {"sim/cockpit2/switches/camera_power_on", XPLM_INT, 1, XPLM_WRITABLE},
     {"sim/cockpit2/switches/total_energy_audio_on", XPLM_INT, 1, XPLM_WRITABLE},
-    {"sim/cockpit2/tcas/indicators/relative_bearing_degs", XPLM_FLOAT, 20, XPLM_NONWRITABLE},
-    {"sim/cockpit2/tcas/indicators/relative_distance_mtrs", XPLM_FLOAT, 20, XPLM_NONWRITABLE},
-    {"sim/cockpit2/tcas/indicators/relative_altitude_mtrs", XPLM_FLOAT, 20, XPLM_NONWRITABLE},
-    {"sim/cockpit2/tcas/indicators/tcas_alert", XPLM_INT, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/indicators/relative_bearing_degs", XPLM_FLOAT, 64, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/indicators/relative_distance_mtrs", XPLM_FLOAT, 64, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/indicators/relative_altitude_mtrs", XPLM_FLOAT, 64, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/indicators/tcas_alert", XPLM_INT, 1, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/indicators/tcas_num_acf", XPLM_INT, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/modeS_id", XPLM_INT, 64, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/targets/modeC_code", XPLM_INT, 64, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/targets/flight_id", XPLM_BYTE, 512, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/targets/icao_type", XPLM_BYTE, 512, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/targets/position/x", XPLM_FLOAT, 64, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/targets/position/y", XPLM_FLOAT, 64, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/targets/position/z", XPLM_FLOAT, 64, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/targets/position/lat", XPLM_FLOAT, 64, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/lon", XPLM_FLOAT, 64, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/ele", XPLM_FLOAT, 64, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/vx", XPLM_FLOAT, 64, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/targets/position/vy", XPLM_FLOAT, 64, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/targets/position/vz", XPLM_FLOAT, 64, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/targets/position/vertical_speed", XPLM_FLOAT, 64, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/targets/position/hpath", XPLM_FLOAT, 64, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/vpath", XPLM_FLOAT, 64, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/V_msc", XPLM_FLOAT, 64, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/psi", XPLM_FLOAT, 64, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/targets/position/the", XPLM_FLOAT, 64, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/targets/position/phi", XPLM_FLOAT, 64, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/targets/position/weight_on_wheels", XPLM_INT, 64, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/targets/position/gear_deploy", XPLM_FLOAT, 64, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/targets/position/flap_ratio", XPLM_FLOAT, 64, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/targets/position/flap_ratio2", XPLM_FLOAT, 64, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/targets/position/speedbrake_ratio", XPLM_FLOAT, 64, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/targets/position/slat_ratio", XPLM_FLOAT, 64, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/targets/position/wing_sweep", XPLM_FLOAT, 64, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/targets/position/throttle", XPLM_FLOAT, 64, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/targets/position/yolk_pitch", XPLM_FLOAT, 64, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/targets/position/yolk_roll", XPLM_FLOAT, 64, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/targets/position/yolk_yaw", XPLM_FLOAT, 64, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/targets/position/lights", XPLM_INT, 64, XPLM_WRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane1_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane1_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane1_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane2_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane2_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane2_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane3_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane3_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane3_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane4_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane4_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane4_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane5_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane5_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane5_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane6_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane6_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane6_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane7_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane7_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane7_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane8_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane8_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane8_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane9_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane9_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane9_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane10_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane10_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane10_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane11_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane11_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane11_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane12_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane12_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane12_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane13_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane13_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane13_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane14_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane14_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane14_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane15_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane15_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane15_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane16_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane16_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane16_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane17_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane17_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane17_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane18_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane18_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane18_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane19_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane19_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane19_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane20_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane20_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane20_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane21_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane21_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane21_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane22_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane22_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane22_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane23_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane23_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane23_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane24_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane24_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane24_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane25_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane25_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane25_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane26_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane26_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane26_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane27_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane27_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane27_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane28_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane28_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane28_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane29_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane29_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane29_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane30_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane30_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane30_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane31_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane31_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane31_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane32_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane32_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane32_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane33_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane33_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane33_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane34_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane34_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane34_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane35_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane35_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane35_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane36_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane36_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane36_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane37_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane37_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane37_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane38_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane38_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane38_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane39_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane39_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane39_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane40_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane40_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane40_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane41_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane41_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane41_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane42_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane42_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane42_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane43_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane43_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane43_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane44_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane44_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane44_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane45_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane45_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane45_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane46_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane46_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane46_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane47_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane47_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane47_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane48_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane48_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane48_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane49_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane49_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane49_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane50_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane50_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane50_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane51_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane51_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane51_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane52_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane52_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane52_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane53_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane53_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane53_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane54_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane54_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane54_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane55_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane55_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane55_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane56_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane56_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane56_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane57_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane57_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane57_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane58_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane58_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane58_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane59_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane59_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane59_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane60_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane60_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane60_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane61_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane61_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane61_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane62_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane62_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane62_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane63_lat", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane63_lon", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
+    {"sim/cockpit2/tcas/targets/position/double/plane63_ele", XPLM_DOUBLE, 1, XPLM_NONWRITABLE},
     {"sim/cockpit2/temperature/outside_air_temp_deg", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
     {"sim/cockpit2/temperature/outside_air_temp_degc", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
     {"sim/cockpit2/temperature/outside_air_temp_degf", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
@@ -44315,6 +46842,7 @@ const xplm_ref_t xplm_ref[MAXSIZEREFS] = {
     {"sim/flightmodel2/engines/jetwash_mtr_sec", XPLM_FLOAT, 8, XPLM_NONWRITABLE},
     {"sim/flightmodel2/engines/prop_disc/override", XPLM_INT, 8, XPLM_WRITABLE},
     {"sim/flightmodel2/engines/prop_disc/disc_width", XPLM_FLOAT, 8, XPLM_WRITABLE},
+    {"sim/flightmodel2/engines/prop_disc/disc_length_ratio", XPLM_FLOAT, 8, XPLM_WRITABLE},
     {"sim/flightmodel2/engines/prop_disc/disc_s", XPLM_FLOAT, 8, XPLM_WRITABLE},
     {"sim/flightmodel2/engines/prop_disc/disc_t", XPLM_INT, 8, XPLM_WRITABLE},
     {"sim/flightmodel2/engines/prop_disc/disc_s_dim", XPLM_INT, 8, XPLM_WRITABLE},
@@ -44388,6 +46916,17 @@ const xplm_ref_t xplm_ref[MAXSIZEREFS] = {
     {"sim/flightmodel2/misc/tailhook_angle_degrees", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
     {"sim/flightmodel2/misc/tow_in_progress", XPLM_INT, 1, XPLM_NONWRITABLE},
     {"sim/flightmodel2/misc/has_crashed", XPLM_INT, 1, XPLM_NONWRITABLE},
+    {"sim/flightmodel2/position/true_theta", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
+    {"sim/flightmodel2/position/true_phi", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
+    {"sim/flightmodel2/position/true_psi", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
+    {"sim/flightmodel2/position/mag_psi", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
+    {"sim/flightmodel2/position/alpha", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
+    {"sim/flightmodel2/position/beta", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
+    {"sim/flightmodel2/position/vpath", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
+    {"sim/flightmodel2/position/hpath", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
+    {"sim/flightmodel2/position/groundspeed", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
+    {"sim/flightmodel2/position/true_airspeed", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
+    {"sim/flightmodel2/position/y_agl", XPLM_FLOAT, 1, XPLM_NONWRITABLE},
     {"sim/flightmodel2/wing/aileron1_deg", XPLM_FLOAT, 32, XPLM_WRITABLE},
     {"sim/flightmodel2/wing/aileron2_deg", XPLM_FLOAT, 32, XPLM_WRITABLE},
     {"sim/flightmodel2/wing/spoiler1_deg", XPLM_FLOAT, 32, XPLM_WRITABLE},
@@ -44407,6 +46946,7 @@ const xplm_ref_t xplm_ref[MAXSIZEREFS] = {
     {"sim/flightmodel2/wing/elements/element_MAC_mtr", XPLM_FLOAT, 320, XPLM_NONWRITABLE},
     {"sim/flightmodel2/wing/elements/element_surface_area_mtr_sq", XPLM_FLOAT, 320, XPLM_NONWRITABLE},
     {"sim/flightmodel2/wing/elements/element_condensation_ratio", XPLM_FLOAT, 320, XPLM_NONWRITABLE},
+    {"sim/flightmodel2/wing/elements/element_is_stalled", XPLM_FLOAT, 320, XPLM_NONWRITABLE},
     {"sim/graphics/VR/button_axis_x", XPLM_FLOAT, 5, XPLM_NONWRITABLE},
     {"sim/graphics/VR/button_axis_y", XPLM_FLOAT, 5, XPLM_NONWRITABLE},
     {"sim/graphics/VR/button_down", XPLM_INT, 64, XPLM_NONWRITABLE},
