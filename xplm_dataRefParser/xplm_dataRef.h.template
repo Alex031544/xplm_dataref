@@ -1,0 +1,72 @@
+#ifndef XPLM_DATAREFACCESS_H_INCLUDED
+#define XPLM_DATAREFACCESS_H_INCLUDED
+
+
+#define MAXSIZEREFS ${MAXSIZEREFS}
+
+
+/** @brief Enums for data types in xplm_ref_t */
+typedef enum
+{
+    /** @brief byte type */
+    XPLM_BYTE    = 0,
+
+    /** @brief integer type */
+    XPLM_INT     = 1,
+
+    /** @brief single precision type */
+    XPLM_FLOAT   = 2,
+
+    /** @brief double precision type */
+    XPLM_DOUBLE  = 3,
+
+    /** @brief unknown type */
+    XPLM_UNKNOWN = 4,
+} xplm_types_t;
+
+
+/** @brief Enums for writeable indication in xplm_ref_t */
+typedef enum
+{
+    /** @brief data field is not writeable */
+    XPLM_NONWRITABLE = 0,
+
+    /** @brief data field is writeable */
+    XPLM_WRITABLE    = 1,
+} xplm_writeable_t;
+
+
+/** @brief structure holding information about one data reference */
+typedef struct
+{
+    /** @brief dataref path */
+    char refName[${MAXSIZESTRING}];
+
+    /** @brief data type of the dataref */
+    xplm_types_t type;
+
+    /** @brief size/dimension of the dataref */
+    int size;
+
+    /** @brief indicator if the dataref field is writeable */
+    xplm_writeable_t isWritable;
+} xplm_ref_t;
+
+
+/** @brief Enumeration to access fields of xplm_ref
+ *
+ * @note Access to array refs with _# : e.g. ..._CLOUD_TYPE[0] -> enum is: ..._CLOUD_TYPE_0
+ * @note Reference "sim/flightmodel/position/q" becomes enum `XPLM_SIM_FLIGHTMODEL_POSITION_QUAT
+ */
+enum xplm_ref_e
+{
+${XPLM_ENUMS}
+};
+
+
+/** @brief array of all datarefs */
+const xplm_ref_t xplm_ref[MAXSIZEREFS] = {
+${XPLM_REFS}
+};
+
+#endif // XPLM_DATAREFACCESS_H_INCLUDED

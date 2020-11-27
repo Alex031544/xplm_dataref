@@ -1,80 +1,140 @@
 # == XPLANE PLUGIN DATAREF PARSING TO CPP HEADER ===============================
-# @author:  Christopher Ruwisch
-# @date:    19/11/2019
-# @version: 0.1
+# @author:  Christopher Ruwisch, Alexander Behrens
+# @date:    27/11/2020
+# @version: 1.0
 # @brief:   Parser for datareferences from XPLANE SDK to build a plugin for
 #           different applications
 # ==============================================================================
-
-from parseData import *
-# == START SCRIPT ==============================================================
-
-pathToRefFile   = ""
-referenceFile   = "DataRefs.txt"
-headerFile      = "xplm_dataRef.h"
-
-# == READING DATAREFERENCE FILE ===============================================
-with open(pathToRefFile + referenceFile,"r") as refFile:
-    refDataContent = refFile.readlines()
-
-# == PREPROCESS DATA ==========================================================
-
-header  = refDataContent[0]
-rawData = refDataContent[2:]
-rawDataSize = len(rawData)
-
-dataRef = []
-for idx in range(rawDataSize):
-    dataRef.append(preProcessDataRef(rawData[idx]))
+import re
+from functools import reduce
+from string import Template
 
 
-maxSizeString = max(len(element.ref) for element in dataRef) + 1
+class DataRef:
+    def __init__(self, path: str = '',
+                 data_type: str = 'XPLM_UNKNOWN',
+                 data_dim: int = 1,
+                 writeable: str = 'XPLM_WRITABLE',
+                 unit: str = None,
+                 brief: str = None,
+                 description: str = ''):
+        self.path = path
+        self.path_len = len(path)
+        self.data_type = data_type
+        self.data_dim = data_dim
+        self.writeable = writeable
+        self.unit = unit
+        self.brief = brief
+        self.description = description
 
-# == FILE CREATION ============================================================
-with open(headerFile,"w+") as wFile:
-    _hName = "_" + (headerFile.replace(".","_")).upper()
-    wFile.writelines("#ifndef " + _hName + "\n")
-    wFile.writelines("#define " + _hName + "\n\n")
-
-    wFile.writelines("// == DEFINES =================================================================\n")
-    wFile.writelines("#define MAXSIZESTRING\t" + str(maxSizeString) + "\n")
-    wFile.writelines("#define MAXSIZEREFS\t\t" + str(rawDataSize) + "\n\n")
-
-    wFile.writelines("// == TYPEDEFS ================================================================\n")
-
-    # Typedef Struct xplm_ref_t(START) - VARIABLE
-    wFile.writelines("typedef struct {\n")
-    # Structelements
-    wFile.writelines("\tchar refName[MAXSIZESTRING];\n")
-    wFile.writelines("\tint type;\t\t // 0 - BYTE | 1 - INT | 2 - FLOAT | 3 - DOUBLE | 4 - UNKNOWN\n")
-    wFile.writelines("\tint size;\t\t // NUMBER OF ELEMENT\n")
-    wFile.writelines("\tint isWritable;\t // 1 - YES | 0 - NO //\n")
-    # Typedef Struct (END)
-    wFile.writelines("} xplm_ref_t;\n\n")
-    wFile.writelines("// HINT: Array in this File \"xplm_ref[MAXSIZEREFS]\"\n")
-    wFile.writelines("// HINT: Access to array refs with _# : e.g. ..._CLOUD_TYPE[0] -> enum is: ..._CLOUD_TYPE_0\n")
-    wFile.writelines("// HINT: Reference - sim/flightmodel/position/q -> XPLM_SIM_FLIGHTMODEL_POSITION_QUAT\n\n")
-
-    wFile.writelines("// == ENUMERATION =============================================================\n")
-    # Data access enums (START)
-    wFile.writelines("enum xplm_ref_E {\n")
-    # Data access enums
+    def set_path(self, path: str):
+        self.path = path
+        self.path_len = len(path)
 
 
-    for element in dataRef:
-        wFile.writelines("\tXPLM_" + (element.var).upper() + ",\n")
-    # Data access enums (END)
-    wFile.writelines("};\n\n")
+def parse_line(line):
+    if line.startswith('sim/'):
+        line = line.strip()
 
-    wFile.writelines("// == REFERENCES ==============================================================\n")
-    # Const struct xplm_ref_t (START)
-    wFile.writelines("const xplm_ref_t xplm_ref[MAXSIZEREFS] = {\n")
-    for element in dataRef:
-        wFile.writelines("\t{" + "\"" + element.ref +"\",")
-        wFile.writelines(" " + str(element.type) + ", " + str(element.size) + ", " + str(element.isWrite))
-        wFile.writelines("},\n")
+        # first section contains the path
+        finding = re.match(r'sim[\w/\[\]]+\t+', line)
+        dref = DataRef(path=finding.group().strip())
+        line = line[finding.end():]
 
-    # Const struct xplm_ref_t (END)
-    wFile.writelines("};\n")
+        # second section contains the data type and its dimension
+        finding = re.match(r'[\w/\[\]]+\t+', line)
+        line = line[finding.end():]
+        if "byte" in finding.group():
+            dref.data_type = 'XPLM_BYTE'
+        elif "int" in finding.group():
+            dref.data_type = 'XPLM_INT'
+        elif "float" in finding.group():
+            dref.data_type = 'XPLM_FLOAT'
+        elif "double" in finding.group():
+            dref.data_type = 'XPLM_DOUBLE'
+        else:
+            dref.data_type = 'XPLM_UNKNOWN'
 
-    wFile.writelines("#endif //" + _hName + "\n")
+        dim = re.search(r'(?<=\[)\d+(?=])', finding.group())
+        if dim:
+            dref.data_dim = int(dim.group())
+
+        # third section contains the write-ability (overwrite default if not)
+        finding = re.match(r'[ny]\t*', line)
+        line = line[finding.end():]
+
+        if 'n' in finding.group():
+            dref.writeable = 'XPLM_NONWRITABLE'
+
+        if len(line) == 0:
+            return dref
+
+        # fourth section contains the unit - may not exist
+        def get_unit(line):
+            finding = re.match(r'\[[\s+\-\w.]*]', line)
+            if finding:
+                dref.unit = re.sub(r'(?<=\d)\s*-\s*(?=\d)', '..', finding.group())
+                return line[finding.end():].lstrip()
+
+            finding = re.match(r'[ ,+\-\w./]*(?=\t)', line)
+            if finding:
+                dref.unit = finding.group()
+                return line[finding.end():].lstrip()
+
+            return line
+
+        # fifth section contains the description - may not exist
+        dref.description = get_unit(line)
+
+        return dref
+
+    return None
+
+
+with open('DataRefs.txt') as f:
+    dataRefs = f.readlines()
+
+dataRefs = list(map(parse_line, dataRefs[2:]))
+
+replacements = dict()
+
+lengths = list(map(lambda d: d.path_len, dataRefs))
+replacements['MAXSIZESTRING'] = reduce(lambda l1, l2: l1 if l1 > l2 else l2, lengths)
+
+replacements['MAXSIZEREFS'] = len(dataRefs)
+
+replacements['XPLM_ENUMS'] = '\n'.join(list(map(lambda d: '    /** @brief {descr}\n'
+                                                          '     * \n'
+                                                          '     * unit: {unit}\n'
+                                                          '     * size: {size}\n'
+                                                          '     * is writeable: {wr}\n'
+                                                          '     * path: {path}\n'
+                                                          '     */\n'
+                                                          '    XPLM_{enum},\n'
+                                                .format(enum=d.path.replace('/', '_')
+                                                                   .replace('[', '_')
+                                                                   .replace(']', '')
+                                                                   .upper(),
+                                                        descr=d.description,
+                                                        unit=d.unit,
+                                                        size=d.data_dim,
+                                                        wr='yes' if d.writeable == 'XPLM_WRITABLE' else 'no',
+                                                        path=d.path
+                                                        ), dataRefs))).rstrip()
+
+replacements['XPLM_REFS'] = '\n'.join(list(map(lambda d: '    {\"%s\", %s, %d, %s},' % (
+    d.path, d.data_type, d.data_dim, d.writeable), dataRefs)))
+
+# fixes
+replacements['XPLM_ENUMS'] = re.sub(r'(?<=path: sim/flightmodel/position/q\n'
+                                    r'     \*/\n'
+                                    r'    )XPLM_SIM_FLIGHTMODEL_POSITION_Q(?=,)',
+                                    'XPLM_SIM_FLIGHTMODEL_POSITION_QUAT',
+                                    replacements['XPLM_ENUMS'])
+
+
+with open('xplm_dataRef.h.template') as f:
+    xplm_dataRef_template = Template(f.read())
+
+with open('xplm_dataRef.h', mode='w', encoding='utf-8', newline='\n') as f:
+    f.write(xplm_dataRef_template.substitute(replacements))
