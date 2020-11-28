@@ -52,7 +52,7 @@ typedef enum
 typedef struct
 {
     /** @brief dataref path */
-    char refName[73];
+    char refName[74];
 
     /** @brief data type of the dataref */
     xplm_types_t type;
@@ -62,7 +62,7 @@ typedef struct
 
     /** @brief indicator if the dataref field is writeable */
     xplm_writeable_t isWritable;
-} xplm_ref_t;
+} xplm_elem_t;
 
 
 /** @brief Enumeration to access fields of xplm_ref
@@ -70,7 +70,7 @@ typedef struct
  * @note Access to array refs with _# : e.g. ..._CLOUD_TYPE[0] -> enum is: ..._CLOUD_TYPE_0
  * @note Reference "sim/flightmodel/position/q" becomes enum `XPLM_SIM_FLIGHTMODEL_POSITION_QUAT
  */
-enum xplm_ref_e
+typedef enum
 {
     /** @brief Step increment for autopilot VVI
      * 
@@ -42263,11 +42263,11 @@ enum xplm_ref_e
      * path: sim/graphics/VR/teleport_on_ground
      */
     XPLM_SIM_GRAPHICS_VR_TELEPORT_ON_GROUND,
-};
+} xplm_ref_t;
 
 
 /** @brief array of all datarefs */
-const xplm_ref_t xplm_ref[MAXSIZEREFS] = {
+const xplm_elem_t xplm_ref[MAXSIZEREFS] = {
     {"sim/aircraft/autopilot/vvi_step_ft", XPLM_FLOAT, 1, XPLM_WRITABLE},
     {"sim/aircraft/autopilot/alt_step_ft", XPLM_FLOAT, 1, XPLM_WRITABLE},
     {"sim/aircraft/autopilot/radio_altimeter_step_ft", XPLM_FLOAT, 1, XPLM_WRITABLE},

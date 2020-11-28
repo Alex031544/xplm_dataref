@@ -62,7 +62,7 @@ typedef struct
 
     /** @brief indicator if the dataref field is writeable */
     xplm_writeable_t isWritable;
-} xplm_ref_t;
+} xplm_elem_t;
 
 
 /** @brief Enumeration to access fields of xplm_ref
@@ -70,14 +70,14 @@ typedef struct
  * @note Access to array refs with _# : e.g. ..._CLOUD_TYPE[0] -> enum is: ..._CLOUD_TYPE_0
  * @note Reference "sim/flightmodel/position/q" becomes enum `XPLM_SIM_FLIGHTMODEL_POSITION_QUAT
  */
-enum xplm_ref_e
+typedef enum
 {
 ${XPLM_ENUMS}
-};
+} xplm_ref_t;
 
 
 /** @brief array of all datarefs */
-const xplm_ref_t xplm_ref[MAXSIZEREFS] = {
+const xplm_elem_t xplm_ref[MAXSIZEREFS] = {
 ${XPLM_REFS}
 };
 

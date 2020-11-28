@@ -29,7 +29,7 @@ Xplm_dataRefAccess::~Xplm_dataRefAccess ()
 
 
 bool
-Xplm_dataRefAccess::initStorage (void)
+Xplm_dataRefAccess::initStorage ()
 {
     // CHECK IF ALREADY INIT
     if (!_isInit) {
@@ -48,7 +48,7 @@ Xplm_dataRefAccess::initStorage (void)
 
 
 void
-Xplm_dataRefAccess::readData (enum xplm_ref_e ref, uint8_t *data)
+Xplm_dataRefAccess::readData (xplm_ref_t ref, uint8_t *data)
 {
     if (data == NULL) {
         return;
@@ -61,7 +61,7 @@ Xplm_dataRefAccess::readData (enum xplm_ref_e ref, uint8_t *data)
 
 
 void
-Xplm_dataRefAccess::readData (enum xplm_ref_e ref,
+Xplm_dataRefAccess::readData (xplm_ref_t ref,
                               uint8_t *data,
                               int offSet,
                               int nElem)
@@ -76,7 +76,7 @@ Xplm_dataRefAccess::readData (enum xplm_ref_e ref,
 
 
 void
-Xplm_dataRefAccess::readData (enum xplm_ref_e ref, int *data)
+Xplm_dataRefAccess::readData (xplm_ref_t ref, int *data)
 {
     if (data == NULL) {
         return;
@@ -94,7 +94,7 @@ Xplm_dataRefAccess::readData (enum xplm_ref_e ref, int *data)
 
 
 void
-Xplm_dataRefAccess::readData (enum xplm_ref_e ref,
+Xplm_dataRefAccess::readData (xplm_ref_t ref,
                               int *data,
                               int offSet,
                               int nElem)
@@ -109,7 +109,7 @@ Xplm_dataRefAccess::readData (enum xplm_ref_e ref,
 
 
 void
-Xplm_dataRefAccess::readData (enum xplm_ref_e ref, float *data)
+Xplm_dataRefAccess::readData (xplm_ref_t ref, float *data)
 {
 
     if (data == NULL) {
@@ -128,7 +128,7 @@ Xplm_dataRefAccess::readData (enum xplm_ref_e ref, float *data)
 
 
 void
-Xplm_dataRefAccess::readData (enum xplm_ref_e ref,
+Xplm_dataRefAccess::readData (xplm_ref_t ref,
                               float *data,
                               int offSet,
                               int nElem)
@@ -143,7 +143,7 @@ Xplm_dataRefAccess::readData (enum xplm_ref_e ref,
 
 
 void
-Xplm_dataRefAccess::readData (enum xplm_ref_e ref, double *data)
+Xplm_dataRefAccess::readData (xplm_ref_t ref, double *data)
 {
     if (data == NULL) {
         return;
@@ -156,7 +156,7 @@ Xplm_dataRefAccess::readData (enum xplm_ref_e ref, double *data)
 
 
 void
-Xplm_dataRefAccess::writeData (enum xplm_ref_e ref, uint8_t *data)
+Xplm_dataRefAccess::writeData (xplm_ref_t ref, uint8_t *data)
 {
     if (data == NULL) {
         return;
@@ -169,7 +169,7 @@ Xplm_dataRefAccess::writeData (enum xplm_ref_e ref, uint8_t *data)
 
 
 void
-Xplm_dataRefAccess::writeData (enum xplm_ref_e ref, uint8_t *data, int offSet, int nElem)
+Xplm_dataRefAccess::writeData (xplm_ref_t ref, uint8_t *data, int offSet, int nElem)
 {
     if (data == NULL) {
         return;
@@ -181,7 +181,7 @@ Xplm_dataRefAccess::writeData (enum xplm_ref_e ref, uint8_t *data, int offSet, i
 
 
 void
-Xplm_dataRefAccess::writeData (enum xplm_ref_e ref, int *data)
+Xplm_dataRefAccess::writeData (xplm_ref_t ref, int *data)
 {
     if (data == NULL) {
         return;
@@ -199,7 +199,7 @@ Xplm_dataRefAccess::writeData (enum xplm_ref_e ref, int *data)
 
 
 void
-Xplm_dataRefAccess::writeData (enum xplm_ref_e ref,
+Xplm_dataRefAccess::writeData (xplm_ref_t ref,
                                int *data,
                                int offSet,
                                int nElem)
@@ -214,7 +214,7 @@ Xplm_dataRefAccess::writeData (enum xplm_ref_e ref,
 
 
 void
-Xplm_dataRefAccess::writeData (enum xplm_ref_e ref, float *data)
+Xplm_dataRefAccess::writeData (xplm_ref_t ref, float *data)
 {
     if (data == NULL) {
         return;
@@ -232,7 +232,7 @@ Xplm_dataRefAccess::writeData (enum xplm_ref_e ref, float *data)
 
 
 void
-Xplm_dataRefAccess::writeData (enum xplm_ref_e ref,
+Xplm_dataRefAccess::writeData (xplm_ref_t ref,
                                float *data,
                                int offSet,
                                int nElem)
@@ -247,7 +247,7 @@ Xplm_dataRefAccess::writeData (enum xplm_ref_e ref,
 
 
 void
-Xplm_dataRefAccess::writeData (enum xplm_ref_e ref, double *data)
+Xplm_dataRefAccess::writeData (xplm_ref_t ref, double *data)
 {
     if (data == NULL) {
         return;
@@ -260,7 +260,7 @@ Xplm_dataRefAccess::writeData (enum xplm_ref_e ref, double *data)
 
 
 bool
-Xplm_dataRefAccess::isWritableRef (enum xplm_ref_e ref)
+Xplm_dataRefAccess::isWritableRef (xplm_ref_t ref)
 {
     if (xplm_ref[ref].isWritable) {
         return true;
@@ -270,14 +270,14 @@ Xplm_dataRefAccess::isWritableRef (enum xplm_ref_e ref)
 
 
 xplm_types_t
-Xplm_dataRefAccess::getType (enum xplm_ref_e ref)
+Xplm_dataRefAccess::getType (xplm_ref_t ref)
 {
     return xplm_ref[ref].type;
 }
 
 
 int
-Xplm_dataRefAccess::getSize (enum xplm_ref_e ref)
+Xplm_dataRefAccess::getSize (xplm_ref_t ref)
 {
     return xplm_ref[ref].size;
 }

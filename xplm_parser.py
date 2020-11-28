@@ -110,7 +110,7 @@ def xplm_parser(dataref_file):
     dataRefs = list(map(parse_line, dataRefs[2:]))
 
     lengths = list(map(lambda d: d.path_len, dataRefs))
-    replacements['MAXSIZESTRING'] = reduce(lambda l1, l2: l1 if l1 > l2 else l2, lengths)
+    replacements['MAXSIZESTRING'] = reduce(lambda l1, l2: l1 if l1 > l2 else l2, lengths)+1
 
     replacements['MAXSIZEREFS'] = len(dataRefs)
 
@@ -153,7 +153,7 @@ def xplm_parser(dataref_file):
 
 
 if __name__ == '__main__':
-    dataref_file = 'datarefs/DataRefs.txt.1135'
+    dataref_file = 'datarefs/DataRefs.txt.1150'
 
     if len(sys.argv) > 1:
         dataref_file = sys.argv[1]
