@@ -10,8 +10,8 @@
  *        Date:    Aug 10 2020
  */
 
-#ifndef XPLM_DATAREFACCESS_H_INCLUDED
-#define XPLM_DATAREFACCESS_H_INCLUDED
+#ifndef XPLM_DATAREF_H_INCLUDED
+#define XPLM_DATAREF_H_INCLUDED
 
 
 #define MAXSIZEREFS 4688
@@ -46958,4 +46958,4 @@ const xplm_elem_t xplm_ref[MAXSIZEREFS] = {
     {"sim/graphics/VR/teleport_on_ground", XPLM_INT, 1, XPLM_NONWRITABLE},
 };
 
-#endif // XPLM_DATAREFACCESS_H_INCLUDED
+#endif // XPLM_DATAREF_H_INCLUDED
